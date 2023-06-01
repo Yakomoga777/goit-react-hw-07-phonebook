@@ -58,9 +58,9 @@ export const contactSlise = createSlice({
       state.isLoading = false;
       // state.isLoading = [...state.isLoading, (state.isLoading: false)];
       state.error = null;
-      state.push(action.payload);
+      // state.push(action.payload);
       // state.contacts.push(action.payload);
-      state.contacts = [...state, action.payload];
+      state.contacts.contacts = [...state, ...action.payload];
     },
     [addContacts.rejected](state, action) {
       state.isLoading = false;

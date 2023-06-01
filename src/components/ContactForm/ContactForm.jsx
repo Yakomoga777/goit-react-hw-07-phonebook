@@ -31,14 +31,14 @@ export const ContactForm = ({ btn }) => {
     dispatch(addContacts(newContact));
 
     // // перевірка на наявний конткт
-    const includesName = contacts.find(
-      contact => contact.name.toLowerCase() === newContact.name.toLowerCase()
-    );
-    if (!includesName) {
-      dispatch(addContact(newContact));
-    } else {
-      return alert(`${newContact.name} is already in contacts`);
-    }
+    // const includesName = contacts.find(
+    //   contact => contact.name.toLowerCase() === newContact.name.toLowerCase()
+    // );
+    // if (!includesName) {
+    //   dispatch(addContact(newContact));
+    // } else {
+    //   return alert(`${newContact.name} is already in contacts`);
+    // }
 
     reset();
   };
