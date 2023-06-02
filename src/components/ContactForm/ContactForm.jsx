@@ -1,15 +1,21 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { StyledForm } from './ContactForm.styled';
-import { nanoid } from 'nanoid';
-import { addContact } from 'Redux/slises/contactSlise';
-import { addContacts } from 'Redux/operations';
+import {
+  StyledContactInput,
+  StyledForm,
+  StyledFormContainer,
+  StyledInput,
+} from './ContactForm.styled';
+
+import { addContact } from 'Redux/operations';
+import { selectcontacts } from 'Redux/selectors';
 
 export const ContactForm = ({ btn }) => {
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
   const dispatch = useDispatch();
-  // const contacts = useSelector(state => state.contacts);
+
+  const contacts = useSelector(selectcontacts);
 
   // Контрольовані імпути
   const handleChange = evt => {
@@ -26,19 +32,18 @@ export const ContactForm = ({ btn }) => {
     const form = evt.target;
     const name = form.elements.name.value;
     const number = form.elements.number.value;
-    const newContact = { name, number, id: nanoid() };
-    // dispatch(addContacts());
-    dispatch(addContacts(newContact));
+    const newContact = { name, number };
 
-    // // перевірка на наявний конткт
-    // const includesName = contacts.find(
-    //   contact => contact.name.toLowerCase() === newContact.name.toLowerCase()
-    // );
-    // if (!includesName) {
-    //   dispatch(addContact(newContact));
-    // } else {
-    //   return alert(`${newContact.name} is already in contacts`);
-    // }
+    // перевірка на наявний конткт
+    const includesName = contacts.find(
+      contact => contact.name.toLowerCase() === newContact.name.toLowerCase()
+    );
+    if (!includesName) {
+      dispatch(addContact(newContact));
+    } else {
+      return alert(`${newContact.name} is already in contacts`);
+    }
+    dispatch(addContact(newContact));
 
     reset();
   };
@@ -48,22 +53,10 @@ export const ContactForm = ({ btn }) => {
     setNumber('');
   };
 
-  // const dispatch = useDispatch();
-  // Отримуємо частини стану
-  const { contacts, isLoading, error } = useSelector(
-    state => state.contacts.contacts
-  );
-  // Викликаємо операцію
-  // useEffect(() => {
-  //   dispatch(addContacts());
-  // }, [dispatch]);
-  // Рендерим розмітку в залежності від значень у стані
-  // перевірка на наявний конткт
-
   return (
     <div>
       <StyledForm onSubmit={onSubmit}>
-        <input
+        <StyledContactInput
           type="text"
           name="name"
           // pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
@@ -72,7 +65,7 @@ export const ContactForm = ({ btn }) => {
           value={name}
           onChange={handleChange}
         />
-        <input
+        <StyledContactInput
           type="tel"
           name="number"
           // pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"

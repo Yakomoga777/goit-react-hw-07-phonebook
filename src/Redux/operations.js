@@ -1,28 +1,9 @@
 import axios from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
-import {
-  fetchingInProgress,
-  fetchingSuccess,
-  fetchingError,
-} from './slises/contactSlise';
-
 axios.defaults.baseURL = 'https://64784359362560649a2d6b55.mockapi.io/api/v1';
 
-// export const fetchContactsw = () => async dispatch => {
-//   try {
-//     // Індикатор завантаження
-//     dispatch(fetchingInProgress());
-//     // HTTP-запит
-//     const response = await axios.get('/contacts');
-//     // Обробка даних
-//     dispatch(fetchingSuccess(response.data));
-//   } catch (e) {
-//     // Обробка помилки
-//     dispatch(fetchingError(e.message));
-//   }
-// };
-
+// Читання з сервера
 export const fetchContacts = createAsyncThunk(
   'contacts/fetchAll',
   async (_, thunkAPI) => {
@@ -38,25 +19,25 @@ export const fetchContacts = createAsyncThunk(
   }
 );
 
-// export const addContacts = contact => async dispatch => {
-//   try {
-//     // Індикатор завантаження
-//     dispatch(fetchingInProgress());
-//     // HTTP-запит
-//     const response = await axios.post('/contacts', contact);
-//     // Обробка даних
-//     dispatch(fetchingSuccess(response.data));
-//   } catch (e) {
-//     // Обробка помилки
-//     dispatch(fetchingError(e.message));
-//   }
-// };
-
-export const addContacts = createAsyncThunk(
-  'contacts/addContacts',
+// Додавання контакту до сервера
+export const addContact = createAsyncThunk(
+  'contacts/addContact',
   async (contact, thunkAPI) => {
     try {
       const response = await axios.post('/contacts', contact);
+      return response.data;
+    } catch (e) {
+      return thunkAPI.rejectWithValue(e.message);
+    }
+  }
+);
+
+// Видалення контакту до сервера
+export const deleteContact = createAsyncThunk(
+  'contacts/deleteContact',
+  async (contactId, thunkAPI) => {
+    try {
+      const response = await axios.delete(`/contacts/${contactId}`);
       return response.data;
     } catch (e) {
       return thunkAPI.rejectWithValue(e.message);

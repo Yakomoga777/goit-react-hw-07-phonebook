@@ -1,5 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { addContacts, fetchContacts } from 'Redux/operations';
+import { addContact, deleteContact, fetchContacts } from 'Redux/operations';
+
+const handlePending = state => {
+  state.isLoading = true;
+};
+const handleRejected = (state, action) => {
+  state.isLoading = false;
+  state.error = action.payload;
+};
 
 export const contactSlise = createSlice({
   name: 'contacts',
@@ -8,71 +16,42 @@ export const contactSlise = createSlice({
     isLoading: false,
     error: null,
   },
-  // reducers: {
-  //   addContact(state, action) {
-  //     state.push(action.payload);
-  //   },
-  //   removeContact(state, action) {
-  //     const updatedContacts = state.filter(
-  //       contact => contact.id !== action.payload
-  //     );
 
-  //     return updatedContacts;
-  //   },
-  //   // Виконається в момент старту HTTP-запиту
-  //   fetchingInProgress(state) {
-  //     state.isLoading = true;
-  //   },
-  //   // Виконається якщо HTTP-запит завершився успішно
-  //   fetchingSuccess(state, action) {
-  //     state.contacts = action.payload;
-  //     state.isLoading = false;
-  //     state.error = null;
-  //   },
-  //   // Виконається якщо HTTP-запит завершився з помилкою
-  //   fetchingError(state, action) {
-  //     state.isLoading = false;
-  //     state.error = action.payload;
-  //   },
-  // },
   extraReducers: {
-    [fetchContacts.pending](state) {
-      state.isLoading = true;
-    },
+    [fetchContacts.pending]: handlePending,
+    [fetchContacts.rejected]: handleRejected,
+
+    [addContact.pending]: handlePending,
+    [addContact.rejected]: handleRejected,
+
+    [deleteContact.pending]: handlePending,
+    [deleteContact.rejected]: handleRejected,
+
+    //*redusers for GET
     [fetchContacts.fulfilled](state, action) {
       state.contacts = action.payload;
       state.isLoading = false;
       state.error = null;
     },
-    [fetchContacts.rejected](state, action) {
-      state.isLoading = false;
-      state.error = action.payload;
-    },
 
     //*redusers for POST
-
-    [addContacts.pending](state) {
-      state.isLoading = true;
-    },
-    [addContacts.fulfilled](state, action) {
+    [addContact.fulfilled](state, action) {
       state.isLoading = false;
-      // state.isLoading = [...state.isLoading, (state.isLoading: false)];
       state.error = null;
-      // state.push(action.payload);
-      // state.contacts.push(action.payload);
-      state.contacts.contacts = [...state, ...action.payload];
+      state.contacts = [...state.contacts, action.payload];
     },
-    [addContacts.rejected](state, action) {
+
+    // *redusers for Delete
+    [deleteContact.fulfilled](state, action) {
       state.isLoading = false;
-      state.error = action.payload;
+      state.error = null;
+      const index = state.contacts.findIndex(
+        contact => contact.id === action.payload.id
+      );
+      state.contacts.splice(index, 1);
     },
   },
 });
 
-export const {
-  addContact,
-  removeContact,
-  fetchingInProgress,
-  fetchingSuccess,
-  fetchingError,
-} = contactSlise.actions;
+export const { fetchingInProgress, fetchingSuccess, fetchingError } =
+  contactSlise.actions;

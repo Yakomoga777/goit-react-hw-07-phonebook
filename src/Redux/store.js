@@ -13,19 +13,10 @@ import {
   REGISTER,
 } from 'redux-persist';
 
-// const persistConfig = {
-//   key: 'contacts',
-//   storage,
-//   // blacklist: ['filter'],
-//   whitelist: ['contacts'],
-// };
-
 const reducer = combineReducers({
   contacts: contactSlise.reducer,
   filter: filterSlise.reducer,
 });
-
-// const persistedReducer = persistReducer(persistConfig, reducer);
 
 export const store = configureStore({
   reducer: reducer,
@@ -37,6 +28,13 @@ export const store = configureStore({
     }),
 });
 
-// export const
+// const persistConfig = {
+//   key: 'contacts',
+//   storage,
+//   // blacklist: ['filter'],
+//   whitelist: ['contacts'],
+// };
+
+// const persistedReducer = persistReducer(persistConfig, reducer);
 
 // export const persistor = persistStore(store);

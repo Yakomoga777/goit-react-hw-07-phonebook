@@ -1,6 +1,7 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { filteredContacts } from 'Redux/slises/filterSlise';
+import { StyledFilterInput } from './Filter.styled';
 
 export const Filter = ({ value }) => {
   const dispatch = useDispatch();
@@ -14,7 +15,7 @@ export const Filter = ({ value }) => {
   };
 
   return (
-    <input
+    <StyledFilterInput
       type="text"
       name="filter"
       required

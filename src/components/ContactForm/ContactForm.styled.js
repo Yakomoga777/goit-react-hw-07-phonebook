@@ -6,8 +6,10 @@ export const StyledForm = styled.form`
   gap: 10px;
 
   width: 200px;
-
-  margin: 20px 0 20px 0;
+  margin: 10px auto 10px auto;
   justify-content: center;
 `;
-// export const Sty
+export const StyledContactInput = styled.input`
+  border: 1px solid black;
+  border-radius: 10px;
+`;
