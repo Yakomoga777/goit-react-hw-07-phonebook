@@ -17,41 +17,69 @@ export const contactSlise = createSlice({
     error: null,
   },
 
-  extraReducers: {
-    [fetchContacts.pending]: handlePending,
-    [fetchContacts.rejected]: handleRejected,
-
-    [addContact.pending]: handlePending,
-    [addContact.rejected]: handleRejected,
-
-    [deleteContact.pending]: handlePending,
-    [deleteContact.rejected]: handleRejected,
-
-    //*redusers for GET
-    [fetchContacts.fulfilled](state, action) {
-      state.contacts = action.payload;
-      state.isLoading = false;
-      state.error = null;
-    },
-
-    //*redusers for POST
-    [addContact.fulfilled](state, action) {
-      state.isLoading = false;
-      state.error = null;
-      state.contacts = [...state.contacts, action.payload];
-    },
-
-    // *redusers for Delete
-    [deleteContact.fulfilled](state, action) {
-      state.isLoading = false;
-      state.error = null;
-      const index = state.contacts.findIndex(
-        contact => contact.id === action.payload.id
-      );
-      state.contacts.splice(index, 1);
-    },
+  extraReducers: builder => {
+    builder
+      .addCase(fetchContacts.pending, handlePending)
+      .addCase(fetchContacts.rejected, handleRejected)
+      .addCase(addContact.pending, handlePending)
+      .addCase(addContact.rejected, handleRejected)
+      .addCase(deleteContact.pending, handlePending)
+      .addCase(deleteContact.rejected, handleRejected)
+      .addCase(fetchContacts.fulfilled, (state, action) => {
+        state.contacts = action.payload;
+        state.isLoading = false;
+        state.error = null;
+      })
+      .addCase(addContact.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.error = null;
+        state.contacts = [...state.contacts, action.payload];
+      })
+      .addCase(deleteContact.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.error = null;
+        const index = state.contacts.findIndex(
+          contact => contact.id === action.payload.id
+        );
+        state.contacts.splice(index, 1);
+      });
   },
 });
 
 export const { fetchingInProgress, fetchingSuccess, fetchingError } =
   contactSlise.actions;
+
+// extraReducers: {
+//   [fetchContacts.pending]: handlePending,
+//   [fetchContacts.rejected]: handleRejected,
+
+//   [addContact.pending]: handlePending,
+//   [addContact.rejected]: handleRejected,
+
+//   [deleteContact.pending]: handlePending,
+//   [deleteContact.rejected]: handleRejected,
+
+//   //*redusers for GET
+//   [fetchContacts.fulfilled](state, action) {
+//     state.contacts = action.payload;
+//     state.isLoading = false;
+//     state.error = null;
+//   },
+
+//   //*redusers for POST
+//   [addContact.fulfilled](state, action) {
+//     state.isLoading = false;
+//     state.error = null;
+//     state.contacts = [...state.contacts, action.payload];
+//   },
+
+//   // *redusers for Delete
+//   [deleteContact.fulfilled](state, action) {
+//     state.isLoading = false;
+//     state.error = null;
+//     const index = state.contacts.findIndex(
+//       contact => contact.id === action.payload.id
+//     );
+//     state.contacts.splice(index, 1);
+//   },
+// },

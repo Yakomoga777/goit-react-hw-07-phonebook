@@ -39,7 +39,6 @@ export const ContactForm = ({ btn }) => {
       contact => contact.name.toLowerCase() === newContact.name.toLowerCase()
     );
     if (!includesName) {
-      dispatch(addContact(newContact));
     } else {
       return alert(`${newContact.name} is already in contacts`);
     }

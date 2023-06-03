@@ -9,7 +9,7 @@ export const StyledContainer = styled.div`
   margin-right: auto;
   padding: 10px;
 
-  box-shadow: 0px 10px 15px 0px rgba(24, 232, 21, 1);
+  box-shadow: 0px 0px 15px 0px rgba(24, 232, 21, 1);
 `;
 
 export const H1 = styled.h1`
