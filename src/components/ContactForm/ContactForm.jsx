@@ -1,11 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  StyledContactInput,
-  StyledForm,
-  StyledFormContainer,
-  StyledInput,
-} from './ContactForm.styled';
+import { StyledContactInput, StyledForm } from './ContactForm.styled';
 
 import { addContact } from 'Redux/operations';
 import { selectcontacts } from 'Redux/selectors';

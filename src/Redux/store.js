@@ -1,10 +1,7 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
-import storage from 'redux-persist/lib/storage';
 import { contactSlise } from './slises/contactSlise';
 import { filterSlise } from './slises/filterSlise';
 import {
-  persistStore,
-  persistReducer,
   FLUSH,
   REHYDRATE,
   PAUSE,
